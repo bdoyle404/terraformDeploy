@@ -7,10 +7,10 @@ on:
                 description: 'AWS Region'
                 required: true
                 default: 'us-east-2'
-            vpc_name:
-                description: 'VPC Name'
+            basename:
+                description: 'basename'
                 required: true
-                default: 'terraformDeployVPC'
+                default: 'terraformDeploy'
 
 jobs:
     deploy: 
@@ -36,4 +36,4 @@ jobs:
               run: |
                 terraform apply -auto-approve \
                   -var "region=${{ github.event.inputs.region }}" \
-                  -var "vpc_name=${{ github.event.inputs.vpc_name }}"
+                  -var "vpc_name=${{ github.event.inputs.basename }}"
