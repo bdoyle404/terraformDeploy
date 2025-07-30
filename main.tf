@@ -1,5 +1,13 @@
 ## See https://github.com/tariq87/terraformDeploy/tree/main
 ## Creates the VPC and subnet and uses their IDs.
+## CREATE AN S3 BUCKET FIRST to store the terraform state file.
+##    aws s3api create-bucket --bucket bdoyle-s3-terraformdeploy-123456 --region us-east-2 --create-bucket-configuration LocationConstraint=us-east-2
+##    aws s3api put-bucket-versioning --bucket bdoyle-s3-terraformdeploy-123456 --versioning-configuration Status=Enabled
+
+
+
+
+
 
 variable "region" {
     default = "us-east-2"
@@ -14,8 +22,21 @@ variable "subnet_name" {
     default = "snet-terraformDeploy"
 }
 
+
+
 provider "aws" {
   region = var.region
+}
+
+
+terraform {
+  backend "s3" {
+    bucket         = "bdoyle-s3-terraformdeploy-123456"
+    key            = "terraform/terraform.tfstate"
+    region         = "${var.region}"
+    ## dynamodb_table = "terraform-locks"   # Optional but recommended for state locking
+    encrypt        = true
+  }
 }
 
 # --- Create VPC and subnet -----------------------------------------------
