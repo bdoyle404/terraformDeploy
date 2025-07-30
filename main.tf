@@ -36,15 +36,15 @@ data "aws_subnets" "private" {
         values = [data.aws_vpc.selected_vpc.id]
     }
     tags = {
-        Type = "private"
-        Stack = "terraformDeploy"
+        type = "private"
+        stack = "terraformDeploy"
     }
 }
 
-resource "aws_instance" "web_server" {
+resource "aws_instance" "ec2_instance" {
     ami           = data.aws_ami.latest_amazon_linux.id
     instance_type = "t2.micro"
-    subnet_id     = data.aws_subnets.private.ids[0]
+    subnet_id = data.aws_subnets.private.ids[0]
     tags = {
         Name = "WebServer"
         Purpose = "test"
