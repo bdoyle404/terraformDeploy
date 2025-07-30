@@ -1,0 +1,5 @@
+.terraform/providers/registry.terraform.io/*
+terraform.tfstate.backup
+terraform.tfstate
+main.tf.old
+.terraform.lock.hcl
