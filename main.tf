@@ -1,10 +1,14 @@
 ## See https://github.com/tariq87/terraformDeploy/tree/main
+## Must create a VPC with the name "vpc_name" before running this script.
+## Must create a VPC Subnet associated with "vpc_name" before running this script.
+
 variable "region" {}
 variable "vpc_name" {}
 
 provider "aws" {
     region = var.region
 }
+
 
 data "aws_ami" "latest_amazon_linux" {
     most_recent = true
@@ -26,7 +30,7 @@ data "aws_ami" "latest_amazon_linux" {
 data "aws_vpc" "selected_vpc" {
     filter {
         name   = "tag:Name"
-        values = [var.vpc_name]
+        values = ["${var.vpc_name}"]
     }
 }
 
@@ -35,16 +39,18 @@ data "aws_subnets" "private" {
         name   = "vpc-id"
         values = [data.aws_vpc.selected_vpc.id]
     }
-    tags = {
-        type = "private"
-        stack = "terraformDeploy"
-    }
+    # filter {
+    #     name   = "tag:Name"
+    #     values = ["${var.vpc_name}"]
+    # }
+
 }
+
 
 resource "aws_instance" "ec2_instance" {
     ami           = data.aws_ami.latest_amazon_linux.id
     instance_type = "t2.micro"
-    subnet_id = data.aws_subnets.private.ids[0]
+    subnet_id     = data.aws_subnets.private.ids[0]
     tags = {
         Name = "WebServer"
         Purpose = "test"
