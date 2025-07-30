@@ -33,7 +33,7 @@ terraform {
   backend "s3" {
     bucket         = "bdoyle-s3-terraformdeploy-123456"
     key            = "terraform/terraform.tfstate"
-    region         = "${var.region}"
+    region         = "us-east-2"
     ## dynamodb_table = "terraform-locks"   # Optional but recommended for state locking
     encrypt        = true
   }
