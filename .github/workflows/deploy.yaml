@@ -36,4 +36,4 @@ jobs:
               run: |
                 terraform apply -auto-approve \
                   -var "region=${{ github.event.inputs.region }}" \
-                  -var "vpc_name=${{ github.event.inputs.basename }}"
+                  -var "basename=${{ github.event.inputs.basename }}"

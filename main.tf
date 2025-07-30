@@ -8,7 +8,7 @@ variable "basename" {
     default = "terraformDeploy"
 }
 variable "vpc_name" {
-    default = "vpn-terraformDeploy"
+    default = "vpc-terraformDeploy"
 }
 variable "subnet_name" {
     default = "snet-terraformDeploy"
